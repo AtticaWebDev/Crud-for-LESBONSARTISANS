@@ -1,18 +1,23 @@
+/* eslint-disable react/no-unescaped-entities */
 import React from "react";
+import { Spin, Alert } from "antd";
 import { Link } from "react-router-dom";
 import { TextField, Button } from "@mui/material";
+import useSignup from "../hooks/useSignup";
 
 const Register = () => {
+  const { loading, error, registerUser } = useSignup();
+
   const handleRegister = (event) => {
-    event.preventDefault(); // Empêche le comportement de soumission par défaut du formulaire
+    event.preventDefault();
     const formData = new FormData(event.target);
     const values = {
       name: formData.get("name"),
       email: formData.get("email"),
       password: formData.get("password"),
+      passwordConfirm: formData.get("passwordConfirm"), // Ajout de la confirmation de mot de passe
     };
-    console.log(values); // Affiche les valeurs dans la console pour vérification
-    // Ici, vous pouvez implémenter la logique pour envoyer les données au serveur, etc.
+    registerUser(values);
   };
 
   return (
@@ -42,19 +47,30 @@ const Register = () => {
               fullWidth
               required
             />
+            <TextField
+              label="Ressaisissez votre mot de passe"
+              type="password"
+              name="passwordConfirm"
+              fullWidth
+              required
+            />
+            {error && (
+              <Alert
+                description={error}
+                type="error"
+                showIcon
+                closable
+                className="alert"
+              />
+            )}
             <div className="text-center">
               Déjà un compte ?{" "}
               <Link to="/login" className="font-bold">
                 connectez-vous !
               </Link>
             </div>
-            <Button
-              type="submit" // Utilisez 'type="submit"' pour soumettre le formulaire
-              variant="contained"
-              color="primary"
-              fullWidth
-            >
-              S'inscrire
+            <Button type="submit" variant="contained" color="primary" fullWidth>
+              {loading ? <Spin /> : "S'inscrire"}
             </Button>
           </div>
         </form>
