@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from "react";
 import PropTypes from "prop-types"; // Import de PropTypes
 
 const AuthContext = createContext();
+
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [userData, setUserData] = useState(null);
@@ -19,7 +20,7 @@ export const AuthProvider = ({ children }) => {
 
   const login = (newToken, newData) => {
     localStorage.setItem(
-      "user-data",
+      "user_data",
       JSON.stringify({ userToken: newToken, user: newData })
     );
 
@@ -34,9 +35,10 @@ export const AuthProvider = ({ children }) => {
     setUserData(null);
     setIsAuthenticated(false);
   };
+
   return (
     <AuthContext.Provider
-      value={(token, isAuthenticated, login, logout, userData)}
+      value={{ token, isAuthenticated, login, logout, userData }}
     >
       {children}
     </AuthContext.Provider>
@@ -44,7 +46,7 @@ export const AuthProvider = ({ children }) => {
 };
 
 AuthProvider.propTypes = {
-  children: PropTypes.node.isRequired, // Validation de children comme un noeud React requis
+  children: PropTypes.node.isRequired,
 };
 
 export const useAuth = () => useContext(AuthContext);
