@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
-import PropTypes from "prop-types"; // Import de PropTypes
+import PropTypes from "prop-types";
 
 const AuthContext = createContext();
 
@@ -23,17 +23,18 @@ export const AuthProvider = ({ children }) => {
       "user_data",
       JSON.stringify({ userToken: newToken, user: newData })
     );
-
     setToken(newToken);
     setUserData(newData);
     setIsAuthenticated(true);
   };
 
   const logout = () => {
+    console.log("Suppression des données utilisateur...");
     localStorage.removeItem("user_data");
     setToken(null);
     setUserData(null);
     setIsAuthenticated(false);
+    console.log("Déconnexion effectuée.");
   };
 
   return (
