@@ -3,12 +3,10 @@ import { Button } from "@mui/material";
 import { useAuth } from "../contexts/AuthContext";
 
 const Dashboard = () => {
-  const { isAuthenticated, logout } = useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
-    console.log("Déconnexion en cours...");
     await logout();
-    console.log("Déconnexion réussie.");
   };
 
   return (
@@ -18,7 +16,6 @@ const Dashboard = () => {
           Déconnexion
         </Button>
       </div>
-      {!isAuthenticated && <p>Vous êtes déconnecté.</p>}
     </>
   );
 };
